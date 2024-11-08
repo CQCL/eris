@@ -1,32 +1,25 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "pytemplate"
-version = "0.0.1"
-description = "A python library"
+name = "eris"
+version = "0.1.0"
+description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
-authors = [{name = "Author", email = "author@email.com" }]
-
-[tool.setuptools.packages.find]
-where = ["."]
-
-[project.urls]
-Repository = "https://github.com/CQCL/pytemplate.git"
-
-# See https://microsoft.github.io/pyright/#/getting-started
-[tool.pyright]
-include = ["pytemplate","tests"]
-ignore = ["**/*.ipynb"]
-pythonVersion = "3.13"
-typeCheckingMode = "strict"
-
-[tool.pytest.ini_options]
-pythonpath = [
-  "."
+authors = [
+    { name = "Seyon Sivarajah", email = "seyon.sivarajah@quantinuum.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "guppylang>=0.12.2",
 ]
 
-[tool.refurb]
-python_version = "3.13"
+[project.scripts]
+eris = "eris:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.3",
+    "ruff>=0.7.3",
+]

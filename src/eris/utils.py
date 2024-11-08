@@ -1,4 +1,4 @@
-"""Utility functions for the pytemplate package."""
+"""Utility functions for the eris package."""
 
 
 def add_numbers(a: int, b: int) -> int:

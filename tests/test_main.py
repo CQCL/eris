@@ -1,6 +1,6 @@
-"""Tests for pytemplate.main module."""
+"""Tests for eris.main module."""
 
-from pytemplate.main import hello_world
+from eris.main import hello_world
 
 
 def test_hello_world():

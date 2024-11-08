@@ -1,4 +1,4 @@
-"""This is the main module of the pytemplate package."""
+"""This is the main module of the eris package."""
 
 
 def hello_world() -> str:

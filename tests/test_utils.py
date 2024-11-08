@@ -1,6 +1,6 @@
-"""Tests for pytemplate.utils."""
+"""Tests for eris.utils."""
 
-from pytemplate.utils import add_numbers
+from eris.utils import add_numbers
 
 
 def test_add():

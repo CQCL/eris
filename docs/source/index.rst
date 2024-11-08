@@ -1,7 +1,7 @@
-pytemplate
+eris
 ==========
 
-Demo Sphinx site for the `CQCL pytemplate <https://github.com/CQCL/pytemplate>`_ project.
+Demo Sphinx site for the `CQCL eris <https://github.com/CQCL/eris>`_ project.
 
 ----
 
@@ -14,31 +14,31 @@ Demo Sphinx site for the `CQCL pytemplate <https://github.com/CQCL/pytemplate>`_
 Installation
 ------------
 
-To install pytemplate, simply run:
+To install eris, simply run:
 
 .. code-block:: bash
 
-   pip install pytemplate
+   pip install eris
 
 Usage
 -----
 
-To use pytemplate, import the main module:
+To use eris, import the main module:
 
 .. code-block:: python
 
-   from pytemplate import main
+   from eris import main
 
    main.run()
 
 Utils
 -----
 
-The utils module contains various utility functions that can be used in conjunction with pytemplate. To use the utils module, import it like so:
+The utils module contains various utility functions that can be used in conjunction with eris. To use the utils module, import it like so:
 
 .. code-block:: python
 
-   from pytemplate import utils
+   from eris import utils
 
    utils.do_something()
 
