@@ -38,7 +38,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "guppylang", specifier = ">=0.12.2" }]
+requires-dist = [{ name = "guppylang", specifier = ">=0.14.0" }]
 
 [package.metadata.requires-dev]
 dev = [
@@ -66,23 +66,24 @@ wheels = [
 
 [[package]]
 name = "guppylang"
-version = "0.12.2"
+version = "0.14.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "graphviz" },
     { name = "hugr" },
     { name = "networkx" },
     { name = "pydantic" },
+    { name = "tket2-exts" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8f/15/d5858dee66874c608c02f92b29bbe4031cb5b7004c3e11958f3fc2e519ab/guppylang-0.12.2.tar.gz", hash = "sha256:78eb12eff2891f0ad11d68fd5318afe597cface072cb3f3ab180ab8f9eff6efc", size = 311854 }
+sdist = { url = "https://files.pythonhosted.org/packages/82/b6/50bf297ca3ebf378b4df0e6f9fb84fc437c22426f8da3d7e803ba2640ccb/guppylang-0.14.0.tar.gz", hash = "sha256:667f0f8539d9e1071385ebb01589f7a5db0e035b64374141279d7e61f52dcc39", size = 356348 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/72/4f/c50cfa8eeb553138c5a5b32f7f989f50ffb69e43723b3a798db3e055b0d6/guppylang-0.12.2-py3-none-any.whl", hash = "sha256:066c6e347769fab992360ed8fdb3b68176db6b925caf4b7ae073dbd8025d06f7", size = 151111 },
+    { url = "https://files.pythonhosted.org/packages/22/41/2685016abe6a21dd29893b25333df6406551ef7146878e9774deaea394a9/guppylang-0.14.0-py3-none-any.whl", hash = "sha256:7c388e2448150609a36159e005e13710fc8d7da1eafc369d03dfd97bae8b4560", size = 182006 },
 ]
 
 [[package]]
 name = "hugr"
-version = "0.8.1"
+version = "0.10.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "graphviz" },
@@ -90,9 +91,9 @@ dependencies = [
     { name = "pydantic-extra-types" },
     { name = "semver" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6b/d1/737a7a26413d8df56d99a6c445635d8fa22df739b4a6b030bf8cdb44fe4f/hugr-0.8.1.tar.gz", hash = "sha256:d36b49b413422466f2bd65ce86b81fc5fc2b1e08ab2cabc01d51b67a458903cd", size = 124745 }
+sdist = { url = "https://files.pythonhosted.org/packages/9b/33/bf22e522bbd16006e943bdea5fbce25407297dab03e8acf2b1b10d1f7be7/hugr-0.10.1.tar.gz", hash = "sha256:35e0a1a31747132f0eaeb05423aba5d7e9708f9cc9fcef52fdeb8cec0618e996", size = 129962 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/44/e3/878d1a3c730b152fbd8bb9d49aa32ad102152952205634f332e752910b97/hugr-0.8.1-py3-none-any.whl", hash = "sha256:b4d7a43c54532069ee8c5ac03afd511854eea725b6207fc178d3a8e7b2c911e2", size = 78431 },
+    { url = "https://files.pythonhosted.org/packages/d3/b5/9aa16293f131a218ae738916c77bfbd9523208a663bb57414a050cb4836c/hugr-0.10.1-py3-none-any.whl", hash = "sha256:052ba88a840350d98e1e4c0b6b1b4560190aeba1722a5ec2cb148b446626f184", size = 83487 },
 ]
 
 [[package]]
@@ -274,6 +275,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/41/6c/a536cc008f38fd83b3c1b98ce19ead13b746b5588c9a0cb9dd9f6ea434bc/semver-3.0.2.tar.gz", hash = "sha256:6253adb39c70f6e51afed2fa7152bcd414c411286088fb4b9effb133885ab4cc", size = 214988 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/9a/77/0cc7a8a3bc7e53d07e8f47f147b92b0960e902b8254859f4aee5c4d7866b/semver-3.0.2-py3-none-any.whl", hash = "sha256:b1ea4686fe70b981f85359eda33199d60c53964284e0cfb4977d243e37cf4bf4", size = 17099 },
+]
+
+[[package]]
+name = "tket2-exts"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "hugr" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/26/b4/fb7a861794ba9a3cce6ea94be74627fc83dac946029e67e31ab918e21a57/tket2_exts-0.3.0.tar.gz", hash = "sha256:ddfe1a410059675fad960f8ff6fc3110914a46edf1d29ef59403f242d50551f0", size = 9562 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/af/de/8dce94965f71bf33aac68c69e9c383307d57e1f955fa6e1b1ae67e059aba/tket2_exts-0.3.0-py3-none-any.whl", hash = "sha256:5bc144fcc18aacfa26f3ae68c81aa154db5479097c38a75cde12bccc03d6a8cd", size = 14691 },
 ]
 
 [[package]]
