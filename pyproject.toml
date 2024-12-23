@@ -8,7 +8,10 @@ authors = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "guppylang>=0.14.0",
+    "eldarion>=0.2.0rc1",
+    "guppylang>=0.14.0,<0.15",
+    "hsim>=0.4.1,<0.5",
+    "hugr>=0.10.2",
 ]
 
 [project.scripts]
@@ -22,4 +25,8 @@ build-backend = "hatchling.build"
 dev = [
     "pytest>=8.3.3",
     "ruff>=0.7.3",
+]
+[tool.uv]
+extra-index-url = [
+    "https://quantinuumsw.jfrog.io/artifactory/api/pypi/pypi_local/simple",
 ]
