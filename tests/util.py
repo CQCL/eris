@@ -42,3 +42,15 @@ def single_reg_counts(shots: HShots, reg: str = "c") -> Counter[str]:
             if reg_name == reg:
                 c[bits] += val
     return c
+
+
+def sum_bits(bitstr: str) -> int:
+    return sum(int(c) for c in bitstr)
+
+
+def even_parity(bitstr: str) -> bool:
+    return sum_bits(bitstr) % 2 == 0
+
+
+def odd_parity(bitstr: str) -> bool:
+    return not even_parity(bitstr)
