@@ -1,5 +1,5 @@
 from guppylang.decorator import guppy
-from guppylang.std.builtins import array
+from guppylang.std.builtins import array, result
 from guppylang.std.quantum import qubit
 from guppylang.std import quantum as gq
 
@@ -44,3 +44,11 @@ def z(data_qubits: array[qubit, 7]) -> None:
 def cx(ctrl: array[qubit, 7], tgt: array[qubit, 7]) -> None:
     for i in range(len(ctrl)):
         gq.cx(ctrl[i], tgt[i])
+
+
+@guppy
+def decode_result(data_bits: array[bool, 7]) -> bool:
+    out = 0
+    for b in data_bits:
+        out += int(b)
+    return out % 2 == 1
