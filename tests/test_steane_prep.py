@@ -2,7 +2,7 @@ from collections import Counter
 from guppylang.decorator import guppy
 from guppylang.std.builtins import result
 from guppylang.std import quantum as gq
-from eris.steane import non_ft_zero, x, ft_zero, cx
+from eris.steane import non_ft_zero, x, ft_zero, cx, parity_check
 from .util import run, single_reg_counts
 
 
@@ -86,9 +86,9 @@ def test_cx() -> None:
         t = non_ft_zero()
         x(c)
         cx(c, t)
-        for q in t:
-            result("t", gq.measure(q))
+        t_res = gq.measure_array(t)
+        result("t", parity_check(t_res))
         gq.discard_array(c)
 
     results = run(guppy.get_module(), 14, n_shots=100, random_seed=3)
-    assert is_one(single_reg_counts(results, "t"))
+    assert single_reg_counts(results, "t") == {"1": 100}
