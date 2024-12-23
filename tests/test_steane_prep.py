@@ -3,7 +3,7 @@ from guppylang.decorator import guppy
 from guppylang.std.builtins import result
 from guppylang.std import quantum as gq
 from eris.steane import non_ft_zero, x, ft_zero, cx
-from .util import run, single_reg_counts, even_parity
+from .util import run, single_reg_counts
 
 
 def permute_canonical(bitstr: str) -> str:
@@ -57,7 +57,7 @@ def test_non_ft_zero() -> None:
         for q in data_qubits:
             result("one", gq.measure(q))
 
-    results = run(guppy.get_module(), 7, n_shots=100)
+    results = run(guppy.get_module(), 7, n_shots=100, random_seed=1)
     assert is_zero(single_reg_counts(results, "zero"))
 
     # test X gate
@@ -73,7 +73,7 @@ def test_ft_zero() -> None:
 
         result("goto", goto)
 
-    results = run(guppy.get_module(), 8, n_shots=100)
+    results = run(guppy.get_module(), 8, n_shots=100, random_seed=2)
     assert is_zero(single_reg_counts(results, "ft_zero"))
     # TODO test with error model
     assert single_reg_counts(results, "goto") == {"0": 100}
@@ -90,5 +90,5 @@ def test_cx() -> None:
             result("t", gq.measure(q))
         gq.discard_array(c)
 
-    results = run(guppy.get_module(), 14, n_shots=100)
+    results = run(guppy.get_module(), 14, n_shots=100, random_seed=3)
     assert is_one(single_reg_counts(results, "t"))
