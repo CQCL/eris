@@ -1,10 +1,8 @@
 from inspect import isclass
-from typing import TypeVar, Generic
-
+from typing import TypeVar
 
 T = TypeVar("T", bound=type)
 
-    
 
 def block(cls: T) -> T:
     cls.blocked = True
