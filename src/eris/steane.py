@@ -38,3 +38,9 @@ def x(data_qubits: array[qubit, 7]) -> None:
 def z(data_qubits: array[qubit, 7]) -> None:
     for i in range(len(data_qubits)):
         gq.z(data_qubits[i])
+
+
+@guppy
+def cx(ctrl: array[qubit, 7], tgt: array[qubit, 7]) -> None:
+    for i in range(len(ctrl)):
+        gq.cx(ctrl[i], tgt[i])

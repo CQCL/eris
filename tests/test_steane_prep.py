@@ -1,7 +1,8 @@
+from collections import Counter
 from guppylang.decorator import guppy
 from guppylang.std.builtins import result
 from guppylang.std import quantum as gq
-from eris.steane import non_ft_zero, x, ft_zero
+from eris.steane import non_ft_zero, x, ft_zero, cx
 from .util import run, single_reg_counts, even_parity
 
 
@@ -29,6 +30,21 @@ ZERO_BASES = {
 }
 
 
+def is_zero(counts: Counter[str]) -> bool:
+    bitsts = set(counts.keys())
+    # permute to canonical labelling of data qubits
+    # https://errorcorrectionzoo.org/c/steane
+    bitsts = {permute_canonical(bitstr) for bitstr in bitsts}
+
+    return bitsts == ZERO_BASES
+
+
+def is_one(counts: Counter[str]) -> bool:
+    bitsts = set(counts.keys())
+    one_bases = {flip_bits(b) for b in ZERO_BASES}
+    return {permute_canonical(bitstr) for bitstr in bitsts} == one_bases
+
+
 def test_non_ft_zero() -> None:
     @guppy
     def main() -> None:
@@ -42,22 +58,10 @@ def test_non_ft_zero() -> None:
             result("one", gq.measure(q))
 
     results = run(guppy.get_module(), 7, n_shots=100)
-    bitsts = set(single_reg_counts(results, "zero").keys())
-    assert len(bitsts) == 8
-    assert all(even_parity(bitstr) for bitstr in bitsts)
-
-    # permute to canonical labelling of data qubits
-    # https://errorcorrectionzoo.org/c/steane
-    bitsts = {permute_canonical(bitstr) for bitstr in bitsts}
-
-    assert bitsts == ZERO_BASES
+    assert is_zero(single_reg_counts(results, "zero"))
 
     # test X gate
-    bitsts = set(single_reg_counts(results, "one").keys())
-    assert len(bitsts) == 8
-    assert all(not even_parity(bitstr) for bitstr in bitsts)
-    one_bases = {flip_bits(b) for b in ZERO_BASES}
-    assert {permute_canonical(bitstr) for bitstr in bitsts} == one_bases
+    assert is_one(single_reg_counts(results, "one"))
 
 
 def test_ft_zero() -> None:
@@ -70,12 +74,21 @@ def test_ft_zero() -> None:
         result("goto", goto)
 
     results = run(guppy.get_module(), 8, n_shots=100)
-    bitsts = set(single_reg_counts(results, "ft_zero").keys())
-    assert len(bitsts) == 8
-    assert all(even_parity(bitstr) for bitstr in bitsts)
-
-    bitsts = {permute_canonical(bitstr) for bitstr in bitsts}
-
-    assert bitsts == ZERO_BASES
+    assert is_zero(single_reg_counts(results, "ft_zero"))
     # TODO test with error model
     assert single_reg_counts(results, "goto") == {"0": 100}
+
+
+def test_cx() -> None:
+    @guppy
+    def main() -> None:
+        c = non_ft_zero()
+        t = non_ft_zero()
+        x(c)
+        cx(c, t)
+        for q in t:
+            result("t", gq.measure(q))
+        gq.discard_array(c)
+
+    results = run(guppy.get_module(), 14, n_shots=100)
+    assert is_one(single_reg_counts(results, "t"))
