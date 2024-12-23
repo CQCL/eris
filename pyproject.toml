@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
-    { name = "Seyon Sivarajah", email = "seyon.sivarajah@quantinuum.com" }
+    { name = "Seyon Sivarajah", email = "seyon.sivarajah@quantinuum.com" },
 ]
 requires-python = ">=3.10"
 dependencies = [
@@ -22,11 +22,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    "pytest>=8.3.3",
-    "ruff>=0.7.3",
-]
+dev = ["pytest>=8.3.3", "ruff>=0.7.3"]
+
 [tool.uv]
 extra-index-url = [
     "https://quantinuumsw.jfrog.io/artifactory/api/pypi/pypi_local/simple",
 ]
+
+[tool.uv.sources]
+guppylang = { git = "https://github.com/CQCL/guppylang.git", branch = "ss/collate" }

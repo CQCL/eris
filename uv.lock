@@ -111,7 +111,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "eldarion", specifier = ">=0.2.0rc1" },
-    { name = "guppylang", specifier = ">=0.14.0,<0.15" },
+    { name = "guppylang", git = "https://github.com/CQCL/guppylang.git?branch=ss%2Fcollate" },
     { name = "hsim", specifier = ">=0.4.1,<0.5" },
     { name = "hugr", specifier = ">=0.10.2" },
 ]
@@ -143,7 +143,7 @@ wheels = [
 [[package]]
 name = "guppylang"
 version = "0.14.0"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/CQCL/guppylang.git?branch=ss%2Fcollate#54c25823bda4a4422d8e33f918038292db2327b6" }
 dependencies = [
     { name = "graphviz" },
     { name = "hugr" },
@@ -151,10 +151,6 @@ dependencies = [
     { name = "pydantic" },
     { name = "tket2-exts" },
     { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/82/b6/50bf297ca3ebf378b4df0e6f9fb84fc437c22426f8da3d7e803ba2640ccb/guppylang-0.14.0.tar.gz", hash = "sha256:667f0f8539d9e1071385ebb01589f7a5db0e035b64374141279d7e61f52dcc39", size = 356348 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/22/41/2685016abe6a21dd29893b25333df6406551ef7146878e9774deaea394a9/guppylang-0.14.0-py3-none-any.whl", hash = "sha256:7c388e2448150609a36159e005e13710fc8d7da1eafc369d03dfd97bae8b4560", size = 182006 },
 ]
 
 [[package]]
