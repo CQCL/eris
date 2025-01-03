@@ -1,35 +1,37 @@
 from guppylang.decorator import guppy
 from guppylang.std.builtins import array
-from guppylang.std.quantum import qubit, discard_array
-from guppylang.std import quantum as gq
+from guppylang.std import quantum as phys
 
+# @guppy
+# class Steane:
+#     data_qs: array[phys.qubit, 7]
 
 @guppy
-def non_ft_zero() -> array[qubit, 7]:
-    data_qubits = array(qubit() for _ in range(7))
+def non_ft_zero() -> array[phys.qubit, 7]:
+    data_qubits = array(phys.qubit() for _ in range(7))
     plus_ids = array(0, 4, 6)
     for i in plus_ids:
-        gq.h(data_qubits[i])
+        phys.h(data_qubits[i])
 
     cx_pairs = array((0, 1), (4, 5), (6, 3), (6, 5), (4, 2), (0, 3), (4, 1), (3, 2))
     for c, t in cx_pairs:
-        gq.cx(data_qubits[c], data_qubits[t])
+        phys.cx(data_qubits[c], data_qubits[t])
     return data_qubits
 
 
 @guppy
-def ft_zero() -> tuple[array[qubit, 7], bool]:
+def ft_zero() -> tuple[array[phys.qubit, 7], bool]:
     data_qubits = non_ft_zero()
     # TODO compilation barrier
-    ancilla = qubit()
+    ancilla = phys.qubit()
     flags = array(1, 3, 5)
     for f in flags:
-        gq.cx(data_qubits[f], ancilla)
-    return data_qubits, gq.measure(ancilla)
+        phys.cx(data_qubits[f], ancilla)
+    return data_qubits, phys.measure(ancilla)
 
 
 @guppy
-def ft_zero_attempts(attempts: int) -> array[qubit, 7]:
+def ft_zero_attempts(attempts: int) -> array[phys.qubit, 7]:
     """Attempt fault-tolerant zero preparation multiple times,
     until success or the maximum number of attempts is reached.
     """
@@ -37,27 +39,27 @@ def ft_zero_attempts(attempts: int) -> array[qubit, 7]:
     for _ in range(attempts - 1):
         if not failed:
             break
-        discard_array(data_qubits)
+        phys.discard_array(data_qubits)
         data_qubits, failed = ft_zero()
     return data_qubits
 
 
 @guppy
-def x(data_qubits: array[qubit, 7]) -> None:
+def x(data_qubits: array[phys.qubit, 7]) -> None:
     for i in range(len(data_qubits)):
-        gq.x(data_qubits[i])
+        phys.x(data_qubits[i])
 
 
 @guppy
-def z(data_qubits: array[qubit, 7]) -> None:
+def z(data_qubits: array[phys.qubit, 7]) -> None:
     for i in range(len(data_qubits)):
-        gq.z(data_qubits[i])
+        phys.z(data_qubits[i])
 
 
 @guppy
-def cx(ctrl: array[qubit, 7], tgt: array[qubit, 7]) -> None:
+def cx(ctrl: array[phys.qubit, 7], tgt: array[phys.qubit, 7]) -> None:
     for i in range(len(ctrl)):
-        gq.cx(ctrl[i], tgt[i])
+        phys.cx(ctrl[i], tgt[i])
 
 
 n = guppy.nat_var("n")
