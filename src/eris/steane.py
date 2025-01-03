@@ -48,11 +48,15 @@ def ft_zero_attempts(attempts: int) -> qubit:
     for _ in range(attempts - 1):
         if not failed:
             break
-        data_qubits = q.data_qs
-        phys.discard_array(data_qubits)
+        discard(q)
         q, failed = ft_zero()
     return q
 
+@guppy
+@no_type_check
+def h(q: qubit) -> None:
+    for i in range(len(q.data_qs)):
+        phys.h(q.data_qs[i])
 
 @guppy
 @no_type_check
