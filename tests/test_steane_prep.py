@@ -2,7 +2,7 @@ from collections import Counter
 from guppylang.decorator import guppy
 from guppylang.std.builtins import result
 from guppylang.std import quantum as gq
-from eris.steane import non_ft_zero, x, ft_zero, cx, parity_check
+from eris.steane import non_ft_zero, x, ft_zero, ft_zero_attempts, cx, parity_check
 from .util import run, single_reg_counts
 
 
@@ -77,6 +77,17 @@ def test_ft_zero() -> None:
     assert is_zero(single_reg_counts(results, "ft_zero"))
     # TODO test with error model
     assert single_reg_counts(results, "goto") == {"0": 100}
+
+
+def test_ft_zero_attempts() -> None:
+    @guppy
+    def main() -> None:
+        data_qubits = ft_zero_attempts(3)
+        res = gq.measure_array(data_qubits)
+        result("res", parity_check(res))
+
+    results = run(guppy.get_module(), 8, n_shots=100, random_seed=2)
+    assert single_reg_counts(results, "res") == {"0": 100}
 
 
 def test_cx() -> None:

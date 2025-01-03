@@ -1,6 +1,6 @@
 from guppylang.decorator import guppy
-from guppylang.std.builtins import array, result
-from guppylang.std.quantum import qubit
+from guppylang.std.builtins import array
+from guppylang.std.quantum import qubit, discard_array
 from guppylang.std import quantum as gq
 
 
@@ -26,6 +26,20 @@ def ft_zero() -> tuple[array[qubit, 7], bool]:
     for f in flags:
         gq.cx(data_qubits[f], ancilla)
     return data_qubits, gq.measure(ancilla)
+
+
+@guppy
+def ft_zero_attempts(attempts: int) -> array[qubit, 7]:
+    """Attempt fault-tolerant zero preparation multiple times,
+    until success or the maximum number of attempts is reached.
+    """
+    data_qubits, failed = ft_zero()
+    for _ in range(attempts - 1):
+        if not failed:
+            break
+        discard_array(data_qubits)
+        data_qubits, failed = ft_zero()
+    return data_qubits
 
 
 @guppy
