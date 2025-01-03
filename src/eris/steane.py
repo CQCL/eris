@@ -1,13 +1,20 @@
+from typing import no_type_check
 from guppylang.decorator import guppy
-from guppylang.std.builtins import array
+from guppylang.std.builtins import array, owned
 from guppylang.std import quantum as phys
 
-# @guppy
-# class Steane:
-#     data_qs: array[phys.qubit, 7]
+
+@guppy.struct
+@no_type_check
+# TODO is it confusing to shadow the name of qubit?
+class qubit:
+    data_qs: array[phys.qubit, 7]
+
+
 
 @guppy
-def non_ft_zero() -> array[phys.qubit, 7]:
+@no_type_check
+def non_ft_zero() -> qubit:
     data_qubits = array(phys.qubit() for _ in range(7))
     plus_ids = array(0, 4, 6)
     for i in plus_ids:
@@ -16,54 +23,75 @@ def non_ft_zero() -> array[phys.qubit, 7]:
     cx_pairs = array((0, 1), (4, 5), (6, 3), (6, 5), (4, 2), (0, 3), (4, 1), (3, 2))
     for c, t in cx_pairs:
         phys.cx(data_qubits[c], data_qubits[t])
-    return data_qubits
+    return qubit(data_qubits)
 
 
 @guppy
-def ft_zero() -> tuple[array[phys.qubit, 7], bool]:
-    data_qubits = non_ft_zero()
+@no_type_check
+def ft_zero() -> tuple[qubit, bool]:
+    q = non_ft_zero()
     # TODO compilation barrier
     ancilla = phys.qubit()
     flags = array(1, 3, 5)
     for f in flags:
-        phys.cx(data_qubits[f], ancilla)
-    return data_qubits, phys.measure(ancilla)
+        phys.cx(q.data_qs[f], ancilla)
+    return q, phys.measure(ancilla)
 
 
 @guppy
-def ft_zero_attempts(attempts: int) -> array[phys.qubit, 7]:
+@no_type_check
+def ft_zero_attempts(attempts: int) -> qubit:
     """Attempt fault-tolerant zero preparation multiple times,
     until success or the maximum number of attempts is reached.
     """
-    data_qubits, failed = ft_zero()
+    q, failed = ft_zero()
     for _ in range(attempts - 1):
         if not failed:
             break
+        data_qubits = q.data_qs
         phys.discard_array(data_qubits)
-        data_qubits, failed = ft_zero()
-    return data_qubits
+        q, failed = ft_zero()
+    return q
 
 
 @guppy
-def x(data_qubits: array[phys.qubit, 7]) -> None:
-    for i in range(len(data_qubits)):
-        phys.x(data_qubits[i])
+@no_type_check
+def x(q: qubit) -> None:
+    for i in range(len(q.data_qs)):
+        phys.x(q.data_qs[i])
 
 
 @guppy
-def z(data_qubits: array[phys.qubit, 7]) -> None:
-    for i in range(len(data_qubits)):
-        phys.z(data_qubits[i])
+@no_type_check
+def z(q: qubit) -> None:
+    for i in range(len(q.data_qs)):
+        phys.z(q.data_qs[i])
 
 
 @guppy
-def cx(ctrl: array[phys.qubit, 7], tgt: array[phys.qubit, 7]) -> None:
-    for i in range(len(ctrl)):
-        phys.cx(ctrl[i], tgt[i])
+@no_type_check
+def cx(ctrl: qubit, tgt: qubit) -> None:
+    for i in range(len(ctrl.data_qs)):
+        phys.cx(ctrl.data_qs[i], tgt.data_qs[i])
+
+
+@guppy
+@no_type_check
+def measure(q: qubit @ owned) -> bool:
+    return parity_check(phys.measure_array(q.data_qs))
+
+
+@guppy
+@no_type_check
+def discard(q: qubit @ owned) -> None:
+    phys.discard_array(q.data_qs)
 
 
 n = guppy.nat_var("n")
+
+
 @guppy
+@no_type_check
 def parity_check(data_bits: array[bool, n]) -> bool:
     # TODO use xor
     out = 0

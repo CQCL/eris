@@ -1,8 +1,9 @@
 from collections import Counter
+from typing import no_type_check
 from guppylang.decorator import guppy
 from guppylang.std.builtins import result
 from guppylang.std import quantum as gq
-from eris.steane import non_ft_zero, x, ft_zero, ft_zero_attempts, cx, parity_check
+from eris.steane import non_ft_zero, x, ft_zero, ft_zero_attempts, cx, measure, discard
 from .util import run, single_reg_counts
 
 
@@ -47,14 +48,15 @@ def is_one(counts: Counter[str]) -> bool:
 
 def test_non_ft_zero() -> None:
     @guppy
+    @no_type_check
     def main() -> None:
-        data_qubits = non_ft_zero()
-        for q in data_qubits:
+        steane_q = non_ft_zero()
+        for q in steane_q.data_qs:
             result("zero", gq.measure(q))
 
-        data_qubits = non_ft_zero()
-        x(data_qubits)
-        for q in data_qubits:
+        steane_q = non_ft_zero()
+        x(steane_q)
+        for q in steane_q.data_qs:
             result("one", gq.measure(q))
 
     results = run(guppy.get_module(), 7, n_shots=100, random_seed=1)
@@ -66,9 +68,10 @@ def test_non_ft_zero() -> None:
 
 def test_ft_zero() -> None:
     @guppy
+    @no_type_check
     def main() -> None:
-        data_qubits, goto = ft_zero()
-        for q in data_qubits:
+        steane_q, goto = ft_zero()
+        for q in steane_q.data_qs:
             result("ft_zero", gq.measure(q))
 
         result("goto", goto)
@@ -81,10 +84,10 @@ def test_ft_zero() -> None:
 
 def test_ft_zero_attempts() -> None:
     @guppy
+    @no_type_check
     def main() -> None:
-        data_qubits = ft_zero_attempts(3)
-        res = gq.measure_array(data_qubits)
-        result("res", parity_check(res))
+        steane_q = ft_zero_attempts(3)
+        result("res", measure(steane_q))
 
     results = run(guppy.get_module(), 8, n_shots=100, random_seed=2)
     assert single_reg_counts(results, "res") == {"0": 100}
@@ -92,14 +95,14 @@ def test_ft_zero_attempts() -> None:
 
 def test_cx() -> None:
     @guppy
+    @no_type_check
     def main() -> None:
         c = non_ft_zero()
         t = non_ft_zero()
         x(c)
         cx(c, t)
-        t_res = gq.measure_array(t)
-        result("t", parity_check(t_res))
-        gq.discard_array(c)
+        result("t", measure(t))
+        discard(c)
 
     results = run(guppy.get_module(), 14, n_shots=100, random_seed=3)
     assert single_reg_counts(results, "t") == {"1": 100}
